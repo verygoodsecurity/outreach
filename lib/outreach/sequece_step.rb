@@ -1,49 +1,72 @@
 module Outreach
   class SequenceStep
-    attr_accessor :id
+    @@api_fields = [
+        'id',
+        'bounceCount',
+        'clickCount',
+        'deliverCount'
+    ]
 
-    attr_accessor :bounce_count
-    attr_accessor :click_count
-    attr_accessor :deliver_count
-    attr_accessor :failure_count
-    attr_accessor :negative_reply_count
-    attr_accessor :neutral_reply_count
-    attr_accessor :open_count
-    attr_accessor :out_out_count
-    attr_accessor :positive_reply_count
-    attr_accessor :reply_count
-    attr_accessor :schedule_count
+    # attr_accessor :id
+    #
+    # attr_accessor :bounce_count
+    # attr_accessor :click_count
+    # attr_accessor :deliver_count
+    # attr_accessor :failure_count
+    # attr_accessor :negative_reply_count
+    # attr_accessor :neutral_reply_count
+    # attr_accessor :open_count
+    # attr_accessor :out_out_count
+    # attr_accessor :positive_reply_count
+    # attr_accessor :reply_count
+    # attr_accessor :schedule_count
+    #
+    # attr_accessor :step_type
+    # attr_accessor :task_note
+    #
+    # attr_accessor :created_at
+    # attr_accessor :updated_at
 
-    attr_accessor :step_type
-    attr_accessor :task_note
+    class << self
+      @@api_fields.each do |f|
+        self.class.send(:attr_accessor, f.underscore)
+      end
 
-    attr_accessor :created_at
-    attr_accessor :updated_at
+    end
 
     def initialize(attrs)
-      @id = attrs['id']
-      @bounce_count = attrs['bounceCount']
-      @click_count = attrs['clickCount']
-      @deliver_count = attrs['deliverCount']
-      @failure_count = attrs['failureCount']
-      @negative_reply_count = attrs['negativeReplyCount']
-      @neutral_reply_count = attrs['neutralReplyCount']
-      @open_count = attrs['openCount']
-      @out_out_count = attrs['optOutCount']
-      @positive_reply_count = attrs['positiveReplyCount']
-      @reply_count = attrs['replyCount']
-      @schedule_count = attrs['scheduleCount']
+      # self.class.send(:attr_accessor, name)
 
-      @step_type = attrs['stepType']
-      @task_note = attrs['taskNote']
+      @@api_fields.each do |f|
+        self.send("#{f.underscore}=", attrs[f])
+      end
 
-      @created_at = attrs['createdAt']
-      @updated_at = attrs['updatedAt']
+      # @id = attrs['id']
+      # @bounce_count = attrs['bounceCount']
+      # @click_count = attrs['clickCount']
+      # @deliver_count = attrs['deliverCount']
+      # @failure_count = attrs['failureCount']
+      # @negative_reply_count = attrs['negativeReplyCount']
+      # @neutral_reply_count = attrs['neutralReplyCount']
+      # @open_count = attrs['openCount']
+      # @out_out_count = attrs['optOutCount']
+      # @positive_reply_count = attrs['positiveReplyCount']
+      # @reply_count = attrs['replyCount']
+      # @schedule_count = attrs['scheduleCount']
+      #
+      # @step_type = attrs['stepType']
+      # @task_note = attrs['taskNote']
+      #
+      # @created_at = attrs['createdAt']
+      # @updated_at = attrs['updatedAt']
     end
 
     def self.build_from_attributes_hash(attrs)
       result = {}
+
       result['id'] = attrs['id']
+      result.merge attrs['attributes']
+
       new(result)
     end
 
