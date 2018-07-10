@@ -1,46 +1,44 @@
-require 'active_support/core_ext'
+require 'outreach/helpers'
 
 module Outreach
+
   class SequenceStep
+    include Helpers
+
     @@api_fields = [
         'id',
         'bounceCount',
         'clickCount',
-        'deliverCount'
+        'deliverCount',
+        'failureCount',
+        'negativeReplyCount',
+        'neutralReplyCount',
+        'openCount',
+        'optOutCount',
+        'pauseReason',
+        'positiveReplyCount',
+        'repliedAt',
+        'replyCount',
+        'scheduleCount',
+        'state',
+        'stateChangedAt',
+        'createdAt',
+        'updatedAt',
+        'activeAt',
     ]
 
-    # attr_accessor :id
-    #
-    # attr_accessor :bounce_count
-    # attr_accessor :click_count
-    # attr_accessor :deliver_count
-    # attr_accessor :failure_count
-    # attr_accessor :negative_reply_count
-    # attr_accessor :neutral_reply_count
-    # attr_accessor :open_count
-    # attr_accessor :out_out_count
-    # attr_accessor :positive_reply_count
-    # attr_accessor :reply_count
-    # attr_accessor :schedule_count
-    #
-    # attr_accessor :step_type
-    # attr_accessor :task_note
-    #
-    # attr_accessor :created_at
-    # attr_accessor :updated_at
-
     class << self
-      @@api_fields.each do |f|
-        self.class.send(:attr_accessor, f.underscore)
-      end
-
     end
 
     def initialize(attrs)
+      @@api_fields.each do |f|
+        self.class.send(:attr_accessor, Helpers.underscore(f))
+      end
+
       # self.class.send(:attr_accessor, name)
 
       @@api_fields.each do |f|
-        self.send("#{f.underscore}=", attrs[f])
+        self.send("#{Helpers.underscore(f)}=", attrs[f])
       end
 
       # @id = attrs['id']
@@ -67,7 +65,7 @@ module Outreach
       result = {}
 
       result['id'] = attrs['id']
-      result.merge attrs['attributes']
+      result.merge!(attrs['attributes'])
 
       new(result)
     end
@@ -76,14 +74,14 @@ module Outreach
 
     def self.to_ostruct(hash)
       o = OpenStruct.new(hash)
-      hash.each.with_object(o) do |(k,v), o|
+      hash.each.with_object(o) do |(k, v), o|
         o.send(:"#{k}=", to_ostruct(v)) if v.is_a? Hash
       end
       o
     end
 
     def self.nested_hash_value(attrs, keys)
-      keys.reduce(attrs) {|m,k| m && m[k] }
+      keys.reduce(attrs) {|m, k| m && m[k]}
     end
   end
 end
