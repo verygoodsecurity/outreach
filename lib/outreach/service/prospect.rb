@@ -25,7 +25,7 @@ module Outreach
       protected
 
       def api_url
-        "https://api.outreach.io/1.0/prospects"
+        "https://api.outreach.io/api/v2/prospects"
       end
 
       def collection_class
