@@ -16,6 +16,10 @@ module Outreach
       Outreach::Service::SequenceState.new(self)
     end
 
+    def sequences
+      Outreach::Service::Sequence.new(self)
+    end
+
     def request
       Request.new(@api_token)
     end
