@@ -2,7 +2,7 @@ require 'outreach/helpers'
 
 module Outreach
 
-  class SequenceStep
+  class SequenceState
     include Helpers
 
     @@api_fields = [

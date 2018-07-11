@@ -1,6 +1,6 @@
 module Outreach
   module Service
-    class SequenceStep
+    class SequenceState
       def initialize(client)
         @request = client.request
       end
@@ -21,11 +21,11 @@ module Outreach
 
       def api_url
 
-        "https://api.outreach.io/api/v2/sequenceSteps"
+        "https://api.outreach.io/api/v2/sequenceStates"
       end
 
       def collection_class
-        Outreach::SequenceStep
+        Outreach::SequenceState
       end
 
     end
